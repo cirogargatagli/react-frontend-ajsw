@@ -1,0 +1,22 @@
+.fondo-login {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: url(../../images/fondoLogin.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.logo-principal-login {
+    width: 30%;
+}
+
+.paper-login {
+    min-width: 400px;
+}
+
+@media screen and (max-width: 600px) {
+    .paper-login {
+        min-width: 300px;
+    }
+}
