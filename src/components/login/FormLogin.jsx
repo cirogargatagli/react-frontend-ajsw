@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { signIn } from '../../api/ApiAccount';
 import { hash256 } from '../../utils/HashUtil';
 import { AuthContext } from '../../context/AuthContext';
+import { getPersonByEmail } from '../../api/ApiPerson';
 
 const FormLogin = () => {
 
@@ -26,14 +27,22 @@ const FormLogin = () => {
         }
         signIn(body)
             .then(res => {
-                setUser(res.data);
+                getPersonByEmail(res.data.email)
+                    .then(response => {
+                        setUser(response.data);
+                        history.push("/home")
+                    })
+                    .catch(err => {
+                        setError(true);
+                    })
+                    .finally(() => {
+                        setLoading(false);
+                        return;
+                    })
                 setToken(hash256(res.data.email));
-                history.push("/home")
             })
             .catch(error => {
                 setError(true);
-            })
-            .finally(() => {
                 setLoading(false);
             })
     }

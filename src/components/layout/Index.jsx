@@ -8,11 +8,11 @@ const Layout = ({
     children
 }) => {
     return (
-        <Grid container direction="column">
+        <Grid container direction="column" style={{ minHeight: "100vh" }}>
             <Grid item>
                 <Header />
             </Grid>
-            <Grid item>
+            <Grid item style={{ minHeight: "82vh" }}>
                 {children}
             </Grid>
             <Grid item>

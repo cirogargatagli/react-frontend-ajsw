@@ -1,12 +1,43 @@
+import * as React from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Link from '@mui/material/Link';
 
-import React from 'react'
-
-const Footer = () => {
+function Copyright() {
     return (
-        <>
-            Footer
-        </>
-    )
+        <Typography variant="body2" color="text.secondary">
+            {'Copyright © '}
+            <Link color="inherit" href="https://mui.com/">
+                Courses & Activities
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
 }
 
-export default Footer;
+export default function Footer() {
+    return (
+        <Box
+            component="footer"
+            sx={{
+                py: 3,
+                px: 2,
+                mt: 'auto',
+                backgroundColor: (theme) =>
+                    theme.palette.mode === 'light'
+                        ? theme.palette.grey[200]
+                        : theme.palette.grey[800],
+            }}
+        >
+            <Container maxWidth="sm">
+                <Typography variant="body1">
+                    The best portal to do courses and activities
+                </Typography>
+                <Copyright />
+            </Container>
+        </Box>
+    );
+}
