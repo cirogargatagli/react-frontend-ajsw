@@ -15,7 +15,6 @@ const Register = () => {
                     textAlign="center"
                     alignItems="center"
                     spacing={10}
-                    paddingY={4}
                 >
                     <Grid item lg={12} xl={12} md={12} xs={12}>
                         <img

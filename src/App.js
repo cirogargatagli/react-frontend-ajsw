@@ -1,10 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material';
-import { Switch } from 'react-router-dom';
-import { Route } from 'react-router-dom';
-import { BrowserRouter } from 'react-router-dom';
-import Nav from './components/Nav';
-import Login from './screens/login/Login';
-import Register from './screens/register/Register';
+import { AuthContextProvider } from './context/AuthContext';
+import Router from './routing/Router';
 
 const theme = createTheme({
   palette: {
@@ -20,13 +16,9 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/hola" component={Nav} />
-          <Route path="/register" component={Register} />
-          <Route path="/" component={Login} />
-        </Switch>
-      </BrowserRouter>
+      <AuthContextProvider>
+        <Router />
+      </AuthContextProvider>
     </ThemeProvider>
   );
 }

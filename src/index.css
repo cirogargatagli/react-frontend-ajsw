@@ -1,5 +1,6 @@
 @import "./screens/login/login.css";
 @import "./screens/register/register.css";
+@import "./components/layout/layout.css";
 
 :root {
   --primary: #84b6f4;

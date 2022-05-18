@@ -1,15 +1,42 @@
-import { Button, Grid, Paper, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import { Button, CircularProgress, Grid, Paper, Typography } from '@mui/material'
+import React, { useContext, useState } from 'react'
 import ImgLogin from "../../images/login.png"
 import CustomInput from '../CustomInput';
 import InputPassword from '../InputPassword';
 import { useHistory } from "react-router-dom";
+import { signIn } from '../../api/ApiAccount';
+import { hash256 } from '../../utils/HashUtil';
+import { AuthContext } from '../../context/AuthContext';
 
 const FormLogin = () => {
 
     const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const { setUser, setToken } = useContext(AuthContext);
+
+    const onSignIn = () => {
+        setLoading(true);
+        let body = {
+            email: email,
+            password: hash256(password)
+        }
+        signIn(body)
+            .then(res => {
+                setUser(res.data);
+                setToken(hash256(res.data.email));
+                history.push("/home")
+            })
+            .catch(error => {
+                setError(true);
+            })
+            .finally(() => {
+                setLoading(false);
+            })
+    }
 
     return (
         <Paper elevation={10} className="paper-login" >
@@ -44,14 +71,33 @@ const FormLogin = () => {
                         setPassword={setPassword}
                     />
                 </Grid>
+                {
+                    loading && (
+                        <Grid item>
+                            <CircularProgress color="primary" />
+                        </Grid>
+                    )
+                }
                 <Grid item>
                     <Button
                         variant='contained'
                         color='primary'
+                        onClick={onSignIn}
+                        disabled={loading}
                     >
                         Sign In
                     </Button>
                 </Grid>
+                {
+                    error && (
+                        <Grid item>
+                            <Typography variant="subtitle2" color="red">
+                                Email or password invalid
+                            </Typography>
+
+                        </Grid>
+                    )
+                }
                 <Grid
                     container
                     direction="column"

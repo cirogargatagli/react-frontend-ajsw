@@ -1,10 +1,10 @@
 import Axios from "axios";
 
-export const BASEURL = "localhost:8080/api"
+export const BASEURL = "http://localhost:8080/api"
 
 export async function post(endpoint, auth, body) {
     const headers = await getHeaders(auth);
-    return Axios.post(BASEURL + endpoint, { headers })
+    return Axios.post(BASEURL + endpoint, body, { headers })
 }
 
 export async function get(endpoint, auth) {
@@ -19,7 +19,7 @@ export async function patch(endpoint, auth) {
 
 export async function del(endpoint, auth) {
     let headers = await getHeaders(auth);
-    return Axios.del(BASEURL + endpoint, { headers });
+    return Axios.delete(BASEURL + endpoint, { headers });
 }
 
 export async function getHeaders(auth) {

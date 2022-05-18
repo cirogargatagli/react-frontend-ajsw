@@ -33,5 +33,3 @@ const InputPassword = ({
 }
 
 export default InputPassword;
-
-
