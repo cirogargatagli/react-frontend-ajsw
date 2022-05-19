@@ -31,6 +31,7 @@ export default function Footer() {
                         ? theme.palette.grey[200]
                         : theme.palette.grey[800],
             }}
+            textAlign="center"
         >
             <Container maxWidth="sm">
                 <Typography variant="body1">
