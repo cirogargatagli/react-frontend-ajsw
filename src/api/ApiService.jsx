@@ -4,22 +4,22 @@ export const BASEURL = "http://localhost:8080/api"
 
 export async function post(endpoint, auth, body) {
     const headers = await getHeaders(auth);
-    return Axios.post(BASEURL + endpoint, body, { headers })
+    return Axios.post(endpoint, body, { headers })
 }
 
 export async function get(endpoint, auth) {
     let headers = await getHeaders(auth);
-    return Axios.get(BASEURL + endpoint, { headers });
+    return Axios.get(endpoint, { headers });
 }
 
 export async function patch(endpoint, auth) {
     let headers = await getHeaders(auth);
-    return Axios.patch(BASEURL + endpoint, { headers });
+    return Axios.patch(endpoint, { headers });
 }
 
 export async function del(endpoint, auth) {
     let headers = await getHeaders(auth);
-    return Axios.delete(BASEURL + endpoint, { headers });
+    return Axios.delete(endpoint, { headers });
 }
 
 export async function getHeaders(auth) {

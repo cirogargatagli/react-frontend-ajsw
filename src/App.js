@@ -1,4 +1,5 @@
 import { createTheme, ThemeProvider } from '@mui/material';
+import AlertProvider from './components/AlertProvider';
 import { AuthContextProvider } from './context/AuthContext';
 import Router from './routing/Router';
 

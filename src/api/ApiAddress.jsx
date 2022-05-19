@@ -1,7 +1,13 @@
-import { get } from "./ApiService"
+import { BASEURLADDRESS } from "./ApiConst";
+import { get, post } from "./ApiService"
 
-const endpoint = "/addresses"
+const endpointAddress = BASEURLADDRESS + "/addresses";
+const endpointLocalities = BASEURLADDRESS + "/localities";
 
 export const getLocalities = () => {
-    return get(endpoint, false);
+    return get(endpointLocalities, false);
+}
+
+export const postAddress = (body) => {
+    return post(endpointAddress, false, body)
 }
