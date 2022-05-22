@@ -1,10 +1,9 @@
-import { Alert, Autocomplete, Button, CircularProgress, Grid, Paper, Snackbar, TextField, Typography } from '@mui/material'
-import React, { useEffect, useRef, useState } from 'react'
+import { Autocomplete, Button, CircularProgress, Grid, Paper, Snackbar, TextField, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import CustomInput from '../CustomInput';
 import InputPassword from '../InputPassword';
 import { useHistory } from "react-router-dom";
 import { EMAIL, PHONE, STRING } from "../../utils/TypesUtils"
-import { registerUser } from '../../api/ApiUser';
 import { getLocalities, postAddress } from '../../api/ApiAddress';
 import { postAccount } from '../../api/ApiAccount';
 import { createPerson } from '../../api/ApiPerson';
@@ -35,9 +34,9 @@ const FormRegister = () => {
                 setLocalities(res.data);
             })
             .catch(error => {
-                setTimeout(() => {
-                    loadLocalities();
-                }, 10000);
+                // setTimeout(() => {
+                //     loadLocalities();
+                // }, 10000);
             })
     }
 
@@ -102,14 +101,14 @@ const FormRegister = () => {
     }
 
     return (
-        <Paper elevation={10} className="paper-login" >
+        <Paper elevation={2} className="paper-login" >
             <Grid
                 container
                 direction="column"
                 textAlign="center"
-                spacing={3}
                 padding={2}
                 paddingX={5}
+                rowSpacing={2}
             >
                 <Grid item>
                     <Typography variant="h5" color="primary">Complete your information!</Typography>

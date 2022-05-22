@@ -8,10 +8,9 @@ import { AuthContext } from "../context/AuthContext";
 import Activities from "../screens/Activities";
 import Courses from "../screens/Courses";
 import Home from "../screens/Home";
-import Login from "../screens/login/Login";
 import Profile from "../screens/Profile";
-import Register from "../screens/register/Register";
 import Reserves from "../screens/Reserves";
+import SwitchScreenNotAuthenticated from "../screens/notAuthenticated/SwitchScreenNotAuthenticated";
 
 export const Router = (props) => {
     const { isAuthenticated } = useContext(AuthContext)
@@ -31,8 +30,8 @@ export const Router = (props) => {
                         </Layout>
                         :
                         <>
-                            <Route exact path="/register" component={Register} />
-                            <Route exact path="/login" component={Login} />
+                            <Route exact path="/register" render={() => <SwitchScreenNotAuthenticated screen="register" />} />
+                            <Route exact path="/login" render={() => <SwitchScreenNotAuthenticated />} />
                             <Redirect path="*" to="/login" />
                         </>
                 }

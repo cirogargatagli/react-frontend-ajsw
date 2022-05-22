@@ -1,5 +1,4 @@
-@import "./screens/login/login.css";
-@import "./screens/register/register.css";
+@import "./screens/notAuthenticated/screenNotAuthenticated.css";
 @import "./components/layout/layout.css";
 
 :root {

@@ -49,13 +49,12 @@ const FormLogin = () => {
     }
 
     return (
-        <Paper elevation={10} className="paper-login" >
+        <Paper className="paper-login" >
             <Grid
                 container
                 direction="column"
                 textAlign="center"
-                spacing={3}
-                padding={2}
+                rowSpacing={3}
                 paddingX={5}
             >
                 <Grid item lg={12}>

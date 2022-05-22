@@ -1,0 +1,17 @@
+{
+    "company_name": "Courses & Activities",
+    "strings": {
+        "login": {
+            "title1": "¡Welcome to",
+            "title2": "the activity portal!",
+            "subtitle_form": "Sign In",
+            "btn_not_account": "I don't have an account yet",
+            "btn_forgot_pwd": "Forgot your password?"
+        },
+        "register": {
+            "title1": "This is the first step",
+            "title2": "to live the best experiences",
+            "subtitle_form": "Complete your information!"
+        }
+    }
+}
