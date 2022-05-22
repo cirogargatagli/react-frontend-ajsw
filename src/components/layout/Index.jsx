@@ -2,7 +2,7 @@
 import { Grid } from '@mui/material';
 import React from 'react'
 import Footer from './Footer';
-import Header from './Header';
+import Header from './header/Header';
 
 const Layout = ({
     children

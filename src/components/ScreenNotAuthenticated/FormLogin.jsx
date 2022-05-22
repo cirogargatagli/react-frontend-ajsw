@@ -25,7 +25,6 @@ const FormLogin = () => {
             email: email,
             password: hash256(password)
         }
-        console.log(body);
         signIn(body)
             .then(res => {
                 getPersonByEmail(res.data.email)

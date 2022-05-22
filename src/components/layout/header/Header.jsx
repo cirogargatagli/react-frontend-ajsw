@@ -11,11 +11,10 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import Logo from '../../images/logo.png'
-import { AuthContext } from '../../context/AuthContext';
+import Logo from '../../../images/logo.png'
+import { AuthContext } from '../../../context/AuthContext';
 import { useHistory } from 'react-router-dom';
-import { ListItem } from '@mui/material';
+import { Grid } from '@mui/material';
 import { AccountCircle, Logout } from '@mui/icons-material';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 
@@ -95,24 +94,8 @@ const Header = () => {
                         src={Logo}
                         alt='logo'
                         className='logo-header'
+                        onClick={() => history.push("/home")}
                     />
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 600,
-                            letterSpacing: '.1rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        Courses
-                    </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
@@ -150,26 +133,7 @@ const Header = () => {
                             ))}
                         </Menu>
                     </Box>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'none' }, mr: 1 }} />
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href=""
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        Courses
-                    </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', marginLeft: "15px" } }}>
                         {pages.map((page) => (
                             <Button
                                 key={page.name}
@@ -207,11 +171,15 @@ const Header = () => {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting.name} onClick={setting.onClick} >
-                                    <ListItem>
-                                        {setting.icon}
-                                    </ListItem>
-                                    <Typography variant="subtitle2">{setting.name}</Typography>
+                                <MenuItem key={setting.name} onClick={setting.onClick}>
+                                    <Grid container direction="row" spacing={2}>
+                                        <Grid item>
+                                            {setting.icon}
+                                        </Grid>
+                                        <Grid item>
+                                            <Typography variant="subtitle2">{setting.name}</Typography>
+                                        </Grid>
+                                    </Grid>
                                 </MenuItem>
                             ))}
                         </Menu>
