@@ -6,7 +6,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { imagesCarouselHome } from '../utils/ImagesCarousel';
 
 const Home = () => {
-    const cards = [1, 2, 3];
+    const courses = [1, 2, 3];
 
     return (
         <Grid container direction="column" justifyContent="center" textAlign="center">
@@ -30,8 +30,8 @@ const Home = () => {
                         {/* End hero unit */}
                         <Grid container spacing={4}>
                             {
-                                cards.map((card) => (
-                                    <Grid item key={card} xs={4} sm={4} md={4}>
+                                courses.map((course) => (
+                                    <Grid item key={course} xs={4} sm={4} md={4}>
                                         <Card
                                             sx={{ height: '100%', maxHeight: "400px", display: 'flex', flexDirection: 'column' }}
                                         >
