@@ -21,18 +21,18 @@ export const Router = (props) => {
                 {
                     isAuthenticated() ?
                         <Layout>
+                            <Redirect path="*" to={{ pathname: "/home" }} />
                             <Route exact path="/home" component={Home} />
-                            <Route exact path="/profile" component={Profile} />
-                            <Route exact path="/courses" component={Courses} />
-                            <Route exact path="/activities" component={Activities} />
-                            <Route exact path="/reserves" component={Reserves} />
-                            <Redirect exact path="*" to={{ pathname: "/home" }} />
+                            <Route path="/profile" component={Profile} />
+                            <Route path="/courses" component={Courses} />
+                            <Route path="/activities" component={Activities} />
+                            <Route path="/reserves" component={Reserves} />
                         </Layout>
                         :
                         <>
-                            <Route exact path="/register" render={() => <SwitchScreenNotAuthenticated screen="register" />} />
+                            <Route path="*" render={() => <Redirect to="/login" />} />
                             <Route exact path="/login" render={() => <SwitchScreenNotAuthenticated />} />
-                            <Redirect path="*" to="/login" />
+                            <Route path="/register" render={() => <SwitchScreenNotAuthenticated screen="register" />} />
                         </>
                 }
             </Switch>

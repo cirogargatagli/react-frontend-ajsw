@@ -42,41 +42,22 @@ const FormRegister = () => {
 
     const onRegisterUser = async () => {
         setLoading(true);
-        let bodyAccountUser = {
-            email: email,
-            password: hash256(password),
-            active: true,
-            id_role: 3
-        }
-
-        let idAccount = await postAccount(bodyAccountUser)
-            .then(res => {
-                return res.data.id;
-            })
-            .catch(err => {
-                console.log(err)
-            })
-
-        let bodyAddressUser = {
-            street: street,
-            numberHouse: number,
-            idLocality: locality.idLocality
-        }
-
-        let idAddress = await postAddress(bodyAddressUser)
-            .then(res => {
-                return res.data.id;
-            })
-            .catch(err => {
-                console.log(err)
-            })
 
         let bodyUser = {
-            firstName: firstName,
+            firstName,
             lastName: surname,
-            phone: phone,
-            idAddress: idAddress,
-            idAccount: idAccount
+            phone,
+            addressRequest: {
+                street,
+                numberHouse: number,
+                idLocality: locality.idLocality
+            },
+            accountRequest: {
+                email,
+                password: hash256(password),
+                active: true,
+                id_role: 3
+            }
         }
 
         createPerson(bodyUser)
@@ -84,7 +65,7 @@ const FormRegister = () => {
                 setOpenSnackbar({ open: true, severity: "success", message: "You registered successfully, you can now log in" });
                 setTimeout(() => {
                     history.push("/login")
-                }, 2000);
+                }, 200);
             })
             .catch(err => {
                 console.log(err);
@@ -92,7 +73,6 @@ const FormRegister = () => {
             })
             .finally(() => {
                 setLoading(false);
-
             })
     }
 

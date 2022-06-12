@@ -40,7 +40,7 @@ const Header = () => {
         {
             name: 'My Reserves',
             path: "/reserves",
-            canAccess: ["Admin", "Client"]
+            canAccess: ["Client"]
         },
     ];
     const settings = [
@@ -127,6 +127,7 @@ const Header = () => {
                             }}
                         >
                             {pages.map((page) => (
+                                page.canAccess.some(x => x === user.account.role.description) &&
                                 <MenuItem key={page.name} onClick={() => onCickPage(page.path)}>
                                     <Typography textAlign="center">{page.name}</Typography>
                                 </MenuItem>
@@ -135,6 +136,7 @@ const Header = () => {
                     </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', marginLeft: "15px" } }}>
                         {pages.map((page) => (
+                            page.canAccess.some(x => x === user.account.role.description) &&
                             <Button
                                 key={page.name}
                                 onClick={() => onCickPage(page.path)}

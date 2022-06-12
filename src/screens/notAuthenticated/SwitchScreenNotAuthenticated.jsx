@@ -7,30 +7,23 @@ import ScreenNotAuthenticated from './ScreenNotAuthenticated';
 const SwitchScreenNotAuthenticated = ({
     screen = "login"
 }) => {
-
-    const switchProperties = () => {
-        switch (screen) {
-            case "login":
-                return {
-                    classBackground: "fondo-login",
-                    title1: Config.strings.login.title1,
-                    title2: Config.strings.login.title2,
-                    form: <FormLogin />
-                }
-            case "register":
-                return {
-                    classBackground: "fondo-register",
-                    title1: Config.strings.register.title1,
-                    title2: Config.strings.register.title2,
-                    form: <FormRegister />
-                }
-            default:
-                break;
+    let screens = {
+        login: {
+            classBackground: "fondo-login",
+            title1: Config.strings.login.title1,
+            title2: Config.strings.login.title2,
+            form: <FormLogin />
+        },
+        register: {
+            classBackground: "fondo-register",
+            title1: Config.strings.register.title1,
+            title2: Config.strings.register.title2,
+            form: <FormRegister />
         }
     }
 
     return (
-        <ScreenNotAuthenticated props={switchProperties()} />
+        <ScreenNotAuthenticated props={screens[screen]} />
     )
 }
 

@@ -1,5 +1,5 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Paper, Typography } from '@mui/material';
-import React, { useState } from 'react'
+import React from 'react'
 import ItemCarousel from "../components/ItemCarousel"
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -27,7 +27,6 @@ const Home = () => {
                         }
                     </Carousel>
                     <Container sx={{ py: 8 }} maxWidth="md">
-                        {/* End hero unit */}
                         <Grid container spacing={4}>
                             {
                                 courses.map((course) => (
