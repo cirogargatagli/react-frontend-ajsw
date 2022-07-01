@@ -27,7 +27,7 @@ const FormLogin = () => {
         }
         signIn(body)
             .then(res => {
-                getPersonByEmail(res.data.email)
+                getPersonByEmail(email)
                     .then(response => {
                         setUser(response.data);
                         history.push("/home")
@@ -39,7 +39,7 @@ const FormLogin = () => {
                         setLoading(false);
                         return;
                     })
-                setToken(hash256(res.data.email));
+                setToken(res.data);
             })
             .catch(error => {
                 setError(true);

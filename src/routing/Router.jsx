@@ -6,11 +6,12 @@ import { BrowserRouter } from "react-router-dom";
 import Layout from "../components/layout/Index";
 import { AuthContext } from "../context/AuthContext";
 import Activities from "../screens/Activities";
-import Courses from "../screens/Courses";
+import Courses from "../screens/courses/Courses";
 import Home from "../screens/Home";
 import Profile from "../screens/Profile";
 import Reserves from "../screens/Reserves";
 import SwitchScreenNotAuthenticated from "../screens/notAuthenticated/SwitchScreenNotAuthenticated";
+import Course from "../screens/course/Course";
 
 export const Router = (props) => {
     const { isAuthenticated } = useContext(AuthContext)
@@ -24,7 +25,8 @@ export const Router = (props) => {
                             <Redirect path="*" to={{ pathname: "/home" }} />
                             <Route exact path="/home" component={Home} />
                             <Route path="/profile" component={Profile} />
-                            <Route path="/courses" component={Courses} />
+                            <Route exact path="/courses" component={Courses} />
+                            <Route path="/courses/:id" component={Course} />
                             <Route path="/activities" component={Activities} />
                             <Route path="/reserves" component={Reserves} />
                         </Layout>
