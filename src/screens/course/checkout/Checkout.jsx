@@ -11,17 +11,60 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PaymentForm from './PaymentForm';
 import Review from './ReviewOrder';
+import CourseDetail from './CourseDetail';
+import { useParams } from 'react-router-dom';
+import { getCourse } from '../../../api/ApiCourses';
 
-const steps = ['Payment details', 'Review your order'];
-
-
+const steps = ['Course details', 'Payment details', 'Review your order'];
 
 const theme = createTheme();
 
-export default function Checkout({
-    course
-}) {
+export default function Checkout() {
+    let { id } = useParams();
+
+    const [course, setCourse] = React.useState(null);
     const [activeStep, setActiveStep] = React.useState(0);
+
+    const [formPayment, setFormPayment] = React.useState({
+        identificationType: "",
+        identificationNumber: "",
+        nameOnCard: "",
+        cardNumber: "",
+        cvv: "",
+        expiryDate: "",
+        issuer: "",
+        installment: "",
+        paymentMethodId: "",
+    });
+
+    React.useEffect(() => {
+        getCourse(id)
+            .then(res => {
+                setCourse(res.data);
+            })
+            .catch(error => console.log(error));
+    }, [])
+
+    React.useEffect(() => {
+
+        if (activeStep === steps.length) {
+            let expirity = formPayment.expiryDate.split("/");
+
+            let formCreateTokenCard = {
+                cardNumber: formPayment.cardNumber,
+                cardholderName: formPayment.nameOnCard,
+                docType: formPayment.identificationType.id,
+                docNumber: formPayment.identificationNumber,
+                cardExpirationMonth: parseInt(expirity[0]),
+                cardExpirationYear: parseInt("20" + expirity[1]),
+                securityCode: parseInt(formPayment.cvv)
+            }
+            window.Mercadopago.createToken(formCreateTokenCard, (status, response) => {
+                console.log(response)
+            });
+        }
+    }, [activeStep])
+
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -34,15 +77,15 @@ export default function Checkout({
     function getStepContent(step) {
         switch (step) {
             case 0:
-                return <PaymentForm course={course} />;
+                return <CourseDetail course={course} />;
             case 1:
-                return <Review />;
+                return <PaymentForm course={course} form={formPayment} setForm={setFormPayment} />;
+            case 2:
+                return <Review course={course} payment={formPayment} />;
             default:
                 throw new Error('Unknown step');
         }
     }
-
-    window.Mercadopago.setPublishableKey("TEST-3f6811a0-f77b-4c83-99d4-8008bda7332d");
 
     return (
         <ThemeProvider theme={theme}>

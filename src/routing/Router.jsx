@@ -11,7 +11,7 @@ import Home from "../screens/Home";
 import Profile from "../screens/Profile";
 import Reserves from "../screens/Reserves";
 import SwitchScreenNotAuthenticated from "../screens/notAuthenticated/SwitchScreenNotAuthenticated";
-import Course from "../screens/course/Course";
+import Checkout from "../screens/course/checkout/Checkout";
 
 export const Router = (props) => {
     const { isAuthenticated } = useContext(AuthContext)
@@ -26,7 +26,7 @@ export const Router = (props) => {
                             <Route exact path="/home" component={Home} />
                             <Route path="/profile" component={Profile} />
                             <Route exact path="/courses" component={Courses} />
-                            <Route path="/courses/:id" component={Course} />
+                            <Route path="/courses/:id" component={Checkout} />
                             <Route path="/activities" component={Activities} />
                             <Route path="/reserves" component={Reserves} />
                         </Layout>

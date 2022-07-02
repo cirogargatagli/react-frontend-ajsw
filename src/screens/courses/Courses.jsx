@@ -1,9 +1,8 @@
-import { Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, CircularProgress, Container, Grid, Typography } from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, CircularProgress, Container, Grid, Typography } from '@mui/material';
 import React, { useState } from 'react'
 import { useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { getCourses } from '../../api/ApiCourses';
-import MultipleSelectChip from '../../components/MultipleSelectChip';
 
 const Courses = ({
     idActivity = 0,
