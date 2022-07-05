@@ -1,5 +1,5 @@
 import { BASEURLUSER } from "./ApiConst"
-import { get, post } from "./ApiService"
+import { get, post, put } from "./ApiService"
 
 const endpoint = BASEURLUSER + "/persons";
 
@@ -9,4 +9,8 @@ export const getPersonByEmail = (email) => {
 
 export const createPerson = (body) => {
     return post(endpoint, false, body)
+}
+
+export const updatePerson = (body) => {
+    return put(endpoint, false, body);
 }

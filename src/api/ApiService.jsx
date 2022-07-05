@@ -17,6 +17,11 @@ export async function patch(endpoint, auth) {
     return Axios.patch(endpoint, { headers });
 }
 
+export async function put(endpoint, auth, body) {
+    let headers = await getHeaders(auth);
+    return Axios.put(endpoint, body, { headers });
+}
+
 export async function del(endpoint, auth) {
     let headers = await getHeaders(auth);
     return Axios.delete(endpoint, { headers });
