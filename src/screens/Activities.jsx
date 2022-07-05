@@ -66,7 +66,6 @@ const Activities = () => {
                     </Container>
             }
         </Grid>
-
     )
 }
 

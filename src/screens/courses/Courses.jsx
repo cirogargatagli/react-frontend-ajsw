@@ -81,7 +81,7 @@ const Courses = () => {
                                         id="combo-box-localities"
                                         options={localities}
                                         defaultValue={locality}
-                                        onChange={(e, v) => setLocality(defaultLocality)}
+                                        onChange={(e, v) => setLocality(v)}
                                         isOptionEqualToValue={(option, value) => option.idLocality === value.idLocality}
                                         getOptionLabel={(option) => option.name}
                                         renderInput={(params) => <TextField {...params} label="Locality" />}

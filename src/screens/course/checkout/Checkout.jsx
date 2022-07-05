@@ -72,7 +72,7 @@ export default function Checkout() {
                     console.log(response.id)
                     let reserve = {
                         idCourse: parseInt(id),
-                        idClient: 13,
+                        idClient: user.id,
                         paymentDto: {
                             email: "test_user_20994792@testuser.com",
                             firstName: formPayment.nameOnCard,
