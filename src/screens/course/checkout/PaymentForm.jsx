@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import { Autocomplete } from '@mui/material';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { getIdentificationTypesMP, initializeMP } from '../../../utils/MP/MPUtils';
+import { initializeMP } from '../../../utils/MP/MPUtils';
 
 export default function PaymentForm({
     course,
@@ -21,10 +21,14 @@ export default function PaymentForm({
 
     useEffect(() => {
         initializeMP();
-        setOptionsAutocompletes(preState => ({
-            ...preState,
-            identificationTypes: getIdentificationTypesMP()
-        }))
+        window.Mercadopago.getIdentificationTypes((status, response) => {
+            if (status === 200) {
+                setOptionsAutocompletes(preState => ({
+                    ...preState,
+                    identificationTypes: response
+                }))
+            }
+        })
     }, [])
 
     useEffect(() => {

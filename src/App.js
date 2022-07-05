@@ -1,5 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material';
 import { AuthContextProvider } from './context/AuthContext';
+import { FilterContextProvider } from './context/FilterContext';
 import Router from './routing/Router';
 
 const theme = createTheme({
@@ -17,7 +18,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <AuthContextProvider>
-        <Router />
+        <FilterContextProvider>
+          <Router />
+        </FilterContextProvider>
       </AuthContextProvider>
     </ThemeProvider>
   );

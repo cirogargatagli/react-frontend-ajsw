@@ -1,11 +1,18 @@
 import { Card, CardActionArea, CardContent, CardMedia, CircularProgress, Container, Grid, Typography } from '@mui/material';
 import React, { useState } from 'react'
+import { useContext } from 'react';
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { getActivities } from '../api/ApiActivities';
+import { FilterContext } from '../context/FilterContext';
 
 const Activities = () => {
 
     const [activities, setActivities] = useState([]);
+
+    const { setActivity } = useContext(FilterContext);
+
+    const history = useHistory();
 
     useEffect(() => {
         getActivities()
@@ -14,6 +21,11 @@ const Activities = () => {
             })
             .catch(error => console.log(error))
     }, [])
+
+    const onClickActivity = (activitie) => {
+        setActivity(activitie);
+        history.push("/courses");
+    }
 
     return (
         <Grid container justifyContent="center" alignItems="center" minHeight="80vh">
@@ -24,8 +36,10 @@ const Activities = () => {
                         <Grid container spacing={4}>
                             {
                                 activities.map((activitie) => (
-                                    <Grid item key={activitie.idActivity} xs={4} sm={4} md={4}>
-                                        <CardActionArea>
+                                    <Grid item key={activitie.idActivity} xs={12} sm={4} md={4}>
+                                        <CardActionArea
+                                            onClick={() => onClickActivity(activitie)}
+                                        >
                                             <Card
                                                 sx={{ height: '100%', maxHeight: "400px", display: 'flex', flexDirection: 'column' }}
                                             >

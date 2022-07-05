@@ -1,5 +1,4 @@
 import React, { useState, createContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 
 export const AuthContextProvider = (props) => {
     const [user, setUser] = useState(null);
