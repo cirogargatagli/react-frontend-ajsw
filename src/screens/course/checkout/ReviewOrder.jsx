@@ -39,8 +39,6 @@ export default function Review({
     payment
 }) {
 
-    console.log(payment)
-
     const paymentDetails = [
         { name: 'Card type', detail: capitalizeString(payment.paymentMethodId) },
         { name: 'Card holder', detail: capitalizeString(payment.nameOnCard) },

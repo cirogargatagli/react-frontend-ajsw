@@ -6,11 +6,14 @@ import { Autocomplete } from '@mui/material';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { initializeMP } from '../../../utils/MP/MPUtils';
+import Loader from '../../../components/Loader'
 
 export default function PaymentForm({
     course,
     form,
-    setForm
+    setForm,
+    errorPayment,
+    setErrorPayment
 }) {
     const [errorCard, setErrorCard] = useState(null);
     const [optionsAutocompletes, setOptionsAutocompletes] = useState({
@@ -29,6 +32,9 @@ export default function PaymentForm({
                 }))
             }
         })
+        return () => {
+            setErrorPayment("");
+        }
     }, [])
 
     useEffect(() => {
@@ -141,121 +147,130 @@ export default function PaymentForm({
 
     return (
         <React.Fragment>
-            <Typography variant="h6" gutterBottom>
-                Payment method
-            </Typography>
-            <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                    {
-                        optionsAutocompletes.identificationTypes.length > 0 &&
-                        <Autocomplete
-                            disablePortal
-                            id="combo-box-identificationTypes"
-                            options={optionsAutocompletes.identificationTypes}
-                            onChange={(e, v) => setForm(p => ({ ...p, identificationType: v }))}
-                            getOptionLabel={(option) => option.name}
-                            renderInput={(params) => <TextField {...params} label="Identification type" variant="standard" />}
-                        />
-                    }
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <TextField
-                        required
-                        name="identificationNumber"
-                        id="identificationNumber"
-                        label="Identification number"
-                        fullWidth
-                        autoComplete="cc-name"
-                        variant="standard"
-                        value={form.identificationNumber}
-                        onChange={handleChange}
-                    />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <TextField
-                        required
-                        name="nameOnCard"
-                        id="cardName"
-                        label="Name on card"
-                        fullWidth
-                        autoComplete="cc-name"
-                        variant="standard"
-                        value={form.nameOnCard}
-                        onChange={handleChange}
-                    />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <TextField
-                        required
-                        error={errorCard}
-                        helperText={errorCard}
-                        name="cardNumber"
-                        id="cardNumber"
-                        label="Card number"
-                        fullWidth
-                        autoComplete="cc-number"
-                        variant="standard"
-                        value={form.cardNumber}
-                        onChange={handleChange}
-                    />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <TextField
-                        required
-                        name="expiryDate"
-                        id="expDate"
-                        label="Expiry date"
-                        fullWidth
-                        variant="standard"
-                        value={form.expiryDate}
-                        onChange={(handleChange)}
-                        inputProps={{ maxLength: 5 }}
-                    />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <TextField
-                        required
-                        name="cvv"
-                        id="cvv"
-                        label="CVV"
-                        helperText="Last three digits on signature strip"
-                        fullWidth
-                        autoComplete="cc-csc"
-                        variant="standard"
-                        value={form.cvv}
-                        onChange={handleChange}
-                        inputProps={{ maxLength: 3 }}
-                    />
-                </Grid>
-                {
-                    optionsAutocompletes.issuers.length > 0 &&
-                    <Grid item xs={12}>
-                        <Autocomplete
-                            disablePortal
-                            name="issuer"
-                            id="combo-box-issuers"
-                            options={optionsAutocompletes.issuers}
-                            onChange={(e, v) => setForm(p => ({ ...p, issuer: v }))}
-                            getOptionLabel={(option) => option.name}
-                            renderInput={(params) => <TextField {...params} label="Issuer" variant="standard" />}
-                        />
-                    </Grid>
-                }
-                {
-                    optionsAutocompletes.installments.length > 0 &&
-                    <Grid item xs={12}>
-                        <Autocomplete
-                            disablePortal
-                            name="installment"
-                            id="combo-box-installments"
-                            options={optionsAutocompletes.installments}
-                            onChange={(e, v) => setForm(p => ({ ...p, installment: v }))}
-                            getOptionLabel={(option) => option.recommended_message}
-                            renderInput={(params) => <TextField {...params} label="Installments" variant="standard" />}
-                        />
-                    </Grid>
-                }
-            </Grid>
+            {
+                optionsAutocompletes.identificationTypes.length > 0 ?
+                    <>
+                        <Typography variant="h6" gutterBottom>
+                            Payment method
+                        </Typography>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} md={6}>
+
+                                <Autocomplete
+                                    disablePortal
+                                    id="combo-box-identificationTypes"
+                                    options={optionsAutocompletes.identificationTypes}
+                                    onChange={(e, v) => setForm(p => ({ ...p, identificationType: v }))}
+                                    getOptionLabel={(option) => option.name}
+                                    renderInput={(params) => <TextField {...params} label="Identification type" variant="standard" />}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    required
+                                    name="identificationNumber"
+                                    id="identificationNumber"
+                                    label="Identification number"
+                                    fullWidth
+                                    autoComplete="cc-name"
+                                    variant="standard"
+                                    value={form.identificationNumber}
+                                    onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    required
+                                    name="nameOnCard"
+                                    id="cardName"
+                                    label="Name on card"
+                                    fullWidth
+                                    autoComplete="cc-name"
+                                    variant="standard"
+                                    value={form.nameOnCard}
+                                    onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    required
+                                    error={errorCard}
+                                    helperText={errorCard}
+                                    name="cardNumber"
+                                    id="cardNumber"
+                                    label="Card number"
+                                    fullWidth
+                                    autoComplete="cc-number"
+                                    variant="standard"
+                                    value={form.cardNumber}
+                                    onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    required
+                                    name="expiryDate"
+                                    id="expDate"
+                                    label="Expiry date"
+                                    fullWidth
+                                    variant="standard"
+                                    value={form.expiryDate}
+                                    onChange={(handleChange)}
+                                    inputProps={{ maxLength: 5 }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    required
+                                    name="cvv"
+                                    id="cvv"
+                                    label="CVV"
+                                    helperText="Last three digits on signature strip"
+                                    fullWidth
+                                    autoComplete="cc-csc"
+                                    variant="standard"
+                                    value={form.cvv}
+                                    onChange={handleChange}
+                                    inputProps={{ maxLength: 4 }}
+                                />
+                            </Grid>
+                            {
+                                optionsAutocompletes.issuers.length > 0 &&
+                                <Grid item xs={12}>
+                                    <Autocomplete
+                                        disablePortal
+                                        name="issuer"
+                                        id="combo-box-issuers"
+                                        options={optionsAutocompletes.issuers}
+                                        onChange={(e, v) => setForm(p => ({ ...p, issuer: v }))}
+                                        getOptionLabel={(option) => option.name}
+                                        renderInput={(params) => <TextField {...params} label="Issuer" variant="standard" />}
+                                    />
+                                </Grid>
+                            }
+                            {
+                                optionsAutocompletes.installments.length > 0 &&
+                                <Grid item xs={12}>
+                                    <Autocomplete
+                                        disablePortal
+                                        name="installment"
+                                        id="combo-box-installments"
+                                        options={optionsAutocompletes.installments}
+                                        onChange={(e, v) => setForm(p => ({ ...p, installment: v }))}
+                                        getOptionLabel={(option) => option.recommended_message}
+                                        renderInput={(params) => <TextField {...params} label="Installments" variant="standard" />}
+                                    />
+                                </Grid>
+                            }
+                            {
+                                errorPayment && <Grid item xs={12}><Typography color="red">{errorPayment}</Typography></Grid>
+                            }
+                        </Grid>
+                    </>
+                    :
+                    <Loader />
+            }
+
         </React.Fragment>
     );
 }

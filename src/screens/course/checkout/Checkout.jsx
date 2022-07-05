@@ -14,6 +14,10 @@ import Review from './ReviewOrder';
 import CourseDetail from './CourseDetail';
 import { useParams } from 'react-router-dom';
 import { getCourse } from '../../../api/ApiCourses';
+import { AuthContext } from '../../../context/AuthContext';
+import { createReserve } from '../../../api/ApiReserve';
+import { useState } from 'react';
+import LoaderWithText from '../../../components/LoaderWithText'
 
 const steps = ['Course details', 'Payment details', 'Review your order'];
 
@@ -22,8 +26,12 @@ const theme = createTheme();
 export default function Checkout() {
     let { id } = useParams();
 
+    const { user } = React.useContext(AuthContext);
     const [course, setCourse] = React.useState(null);
     const [activeStep, setActiveStep] = React.useState(0);
+    const [loading, setLoading] = useState(false);
+    const [reserve, setReserve] = useState("");
+    const [errorPayment, setErrorPayment] = useState("");
 
     const [formPayment, setFormPayment] = React.useState({
         identificationType: "",
@@ -46,11 +54,11 @@ export default function Checkout() {
     }, [])
 
     React.useEffect(() => {
-
         if (activeStep === steps.length) {
+            setLoading(true);
             let expirity = formPayment.expiryDate.split("/");
 
-            let formCreateTokenCard = {
+            let formCreateToken = {
                 cardNumber: formPayment.cardNumber,
                 cardholderName: formPayment.nameOnCard,
                 docType: formPayment.identificationType.id,
@@ -59,8 +67,41 @@ export default function Checkout() {
                 cardExpirationYear: parseInt("20" + expirity[1]),
                 securityCode: parseInt(formPayment.cvv)
             }
-            window.Mercadopago.createToken(formCreateTokenCard, (status, response) => {
-                console.log(response)
+            window.Mercadopago.createToken(formCreateToken, (status, response) => {
+                if (status === 200 || status === 201) {
+                    console.log(response.id)
+                    let reserve = {
+                        idCourse: parseInt(id),
+                        idClient: 13,
+                        paymentDto: {
+                            email: "test_user_20994792@testuser.com",
+                            firstName: formPayment.nameOnCard,
+                            transactionAmount: course.price,
+                            cardToken: response.id,
+                            paymentMethodId: formPayment.paymentMethodId,
+                            description: course.tittle,
+                            identificationType: formPayment.identificationType.id,
+                            identificationNumber: formPayment.identificationNumber,
+                            installments: formPayment.installment.installments
+                        }
+                    }
+
+                    createReserve(reserve)
+                        .then((res) => {
+                            setReserve(res.data);
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                        .finally(() => {
+                            setLoading(false);
+                        })
+                }
+                else {
+                    setActiveStep(1);
+                    setErrorPayment("Payment error");
+                    setLoading(false);
+                }
             });
         }
     }, [activeStep])
@@ -79,7 +120,7 @@ export default function Checkout() {
             case 0:
                 return <CourseDetail course={course} />;
             case 1:
-                return <PaymentForm course={course} form={formPayment} setForm={setFormPayment} />;
+                return <PaymentForm course={course} form={formPayment} setForm={setFormPayment} errorPayment={errorPayment} setErrorPayment={setErrorPayment} />;
             case 2:
                 return <Review course={course} payment={formPayment} />;
             default:
@@ -102,39 +143,44 @@ export default function Checkout() {
                             </Step>
                         ))}
                     </Stepper>
-                    <React.Fragment>
-                        {activeStep === steps.length ? (
+                    {
+                        !loading ? (
                             <React.Fragment>
-                                <Typography variant="h5" gutterBottom>
-                                    Thank you for your order.
-                                </Typography>
-                                <Typography variant="subtitle1">
-                                    Your order number is #2001539. We have emailed your order
-                                    confirmation, and will send you an update when your order has
-                                    shipped.
-                                </Typography>
-                            </React.Fragment>
-                        ) : (
-                            <React.Fragment>
-                                {getStepContent(activeStep)}
-                                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                    {activeStep !== 0 && (
-                                        <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                                            Back
-                                        </Button>
-                                    )}
+                                {activeStep === steps.length ? (
+                                    <React.Fragment>
+                                        <Typography variant="h5" gutterBottom>
+                                            Thank you for your order.
+                                        </Typography>
+                                        <Typography variant="subtitle1">
+                                            Your order number is #{reserve.id} We have emailed your order
+                                            confirmation.
+                                        </Typography>
+                                    </React.Fragment>
+                                ) : (
+                                    <React.Fragment>
+                                        {getStepContent(activeStep)}
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                            {activeStep !== 0 && (
+                                                <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                                                    Back
+                                                </Button>
+                                            )}
 
-                                    <Button
-                                        variant="contained"
-                                        onClick={handleNext}
-                                        sx={{ mt: 3, ml: 1 }}
-                                    >
-                                        {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                                    </Button>
-                                </Box>
+                                            <Button
+                                                variant="contained"
+                                                onClick={handleNext}
+                                                sx={{ mt: 3, ml: 1 }}
+                                            >
+                                                {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                                            </Button>
+                                        </Box>
+                                    </React.Fragment>
+                                )}
                             </React.Fragment>
-                        )}
-                    </React.Fragment>
+                        )
+                            :
+                            <LoaderWithText text="Reserving..." />
+                    }
                 </Paper>
             </Container>
         </ThemeProvider>
