@@ -7,40 +7,10 @@ import { useHistory } from 'react-router-dom';
 import { getFullCourses } from '../../api/ApiCourses';
 import Loader from '../../components/Loader';
 import { DataGrid } from '@mui/x-data-grid';
-import { getUsers } from '../../api/ApiPerson';
+import { deletePerson, getUsers } from '../../api/ApiPerson';
+import { Action } from '../../components/ActionDataGrid';
 
-const columns = [
-    {
-        field: 'name',
-        headerName: 'Full name',
-        minWidth: 200,
-    },
-    {
-        field: 'email',
-        headerName: 'Email',
-        minWidth: 250
-    },
-    {
-        field: 'role',
-        headerName: 'Role',
-        minWidth: 120
-    },
-    {
-        field: 'phone',
-        headerName: 'Phone',
-        minWidth: 200,
-    },
-    {
-        field: 'address',
-        headerName: 'Address',
-        minWidth: 250
-    },
-];
 
-const minWidth = columns.reduce(
-    (previousValue, currentValue) => previousValue + currentValue.minWidth,
-    0
-) + 10;
 
 const CRUDUsers = () => {
 
@@ -64,6 +34,64 @@ const CRUDUsers = () => {
             .finally(() => setLoading(false))
     }, [])
 
+    const onDelete = (id) => {
+        deletePerson(id)
+            .then(res => {
+                setUsers(users.filter(u => u.id !== id));
+            })
+            .catch(err => console.log(err))
+    }
+
+    const columns = [
+        {
+            field: "actions",
+            headerName: "Actions",
+            sortable: false,
+            minWidth: 100,
+            disableClickEventBubbling: true,
+            renderCell: (params) => {
+                return (
+                    <div
+                        className="d-flex justify-content-between align-items-center"
+                        style={{ cursor: "pointer" }}
+                    >
+                        <Action type="delete" onAction={() => onDelete(params.row.id)} />
+                    </div>
+                );
+            }
+        },
+        {
+            field: 'name',
+            headerName: 'Full name',
+            minWidth: 200,
+        },
+        {
+            field: 'email',
+            headerName: 'Email',
+            minWidth: 250
+        },
+        {
+            field: 'role',
+            headerName: 'Role',
+            minWidth: 120
+        },
+        {
+            field: 'phone',
+            headerName: 'Phone',
+            minWidth: 200,
+        },
+        {
+            field: 'address',
+            headerName: 'Address',
+            minWidth: 250
+        },
+    ];
+
+    const minWidth = columns.reduce(
+        (previousValue, currentValue) => previousValue + currentValue.minWidth,
+        0
+    ) + 10;
+
     return (
         <Grid container justifyContent="center" alignItems="center" minHeight="80vh">
             {
@@ -77,6 +105,9 @@ const CRUDUsers = () => {
                             rowsPerPageOptions={[10]}
                             disableSelectionOnClick
                             autoHeight
+                            style={{
+                                minHeight: "631px"
+                            }}
                         />
                     </Box>
             }

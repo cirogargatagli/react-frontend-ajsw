@@ -1,5 +1,5 @@
 
-import { Button, FormControlLabel, Grid, IconButton } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react'
 import { useEffect } from 'react';
@@ -9,33 +9,7 @@ import Loader from '../../components/Loader';
 import { DataGrid } from '@mui/x-data-grid';
 import { useContext } from 'react';
 import { CourseContext } from '../../context/CourseContext';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-
-const Action = ({ onAction, type }) => {
-
-    const getIcon = {
-        delete: <DeleteIcon style={{ color: "red" }} />,
-        edit: <EditIcon color="primary" />
-    }
-
-    return (
-        <FormControlLabel
-            control={
-                <IconButton
-                    color="secondary"
-                    aria-label="add an alarm"
-                    onClick={onAction}
-                >
-                    {getIcon[type]}
-                </IconButton>
-            }
-        />
-    );
-};
-
-
-
+import { Action } from '../../components/ActionDataGrid';
 
 const CRUDCourses = () => {
 
@@ -179,6 +153,9 @@ const CRUDCourses = () => {
                             rowsPerPageOptions={[5]}
                             disableSelectionOnClick
                             autoHeight
+                            style={{
+                                minHeight: "371px"
+                            }}
                             initialState={{
                                 sorting: {
                                     sortModel: [{ field: 'tittle', sort: 'asc' }],
