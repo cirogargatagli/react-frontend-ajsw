@@ -26,8 +26,6 @@ const Profile = () => {
     // const [roles, setRoles] = useState([]);
     const [loading, setLoading] = useState(false);
 
-
-
     useEffect(() => {
         loadLocalities();
     }, [])

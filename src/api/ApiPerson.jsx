@@ -14,3 +14,7 @@ export const createPerson = (body) => {
 export const updatePerson = (body) => {
     return put(endpoint, false, body);
 }
+
+export const getUsers = () => {
+    return get(endpoint + "/", false)
+}

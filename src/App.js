@@ -1,5 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material';
 import { AuthContextProvider } from './context/AuthContext';
+import { CourseContextProvider } from './context/CourseContext';
 import { FilterContextProvider } from './context/FilterContext';
 import Router from './routing/Router';
 
@@ -18,9 +19,11 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <AuthContextProvider>
-        <FilterContextProvider>
-          <Router />
-        </FilterContextProvider>
+        <CourseContextProvider>
+          <FilterContextProvider>
+            <Router />
+          </FilterContextProvider>
+        </CourseContextProvider>
       </AuthContextProvider>
     </ThemeProvider>
   );

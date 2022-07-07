@@ -12,6 +12,9 @@ import Profile from "../screens/Profile";
 import Reserves from "../screens/Reserves";
 import SwitchScreenNotAuthenticated from "../screens/notAuthenticated/SwitchScreenNotAuthenticated";
 import Checkout from "../screens/course/checkout/Checkout";
+import CRUDCourses from "../screens/administration/CRUDCourses";
+import CRUDUsers from "../screens/administration/CRUDUsers";
+import AddCourse from "../screens/administration/AddCourse";
 
 export const Router = (props) => {
     const { isAuthenticated } = useContext(AuthContext)
@@ -22,13 +25,16 @@ export const Router = (props) => {
                 {
                     isAuthenticated() ?
                         <Layout>
-                            <Redirect path="*" to={{ pathname: "/home" }} />
                             <Route exact path="/home" component={Home} />
                             <Route path="/profile" component={Profile} />
                             <Route exact path="/courses" component={Courses} />
                             <Route path="/courses/:id" component={Checkout} />
                             <Route path="/activities" component={Activities} />
                             <Route path="/reserves" component={Reserves} />
+                            <Route path="/crud-courses" component={CRUDCourses} />
+                            <Route path="/add-course" component={AddCourse} />
+                            <Route path="/users" component={CRUDUsers} />
+                            <Redirect path="*" to={{ pathname: "/home" }} />
                         </Layout>
                         :
                         <>

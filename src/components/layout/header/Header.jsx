@@ -30,18 +30,34 @@ const Header = () => {
         {
             name: 'Courses',
             path: "/courses",
-            canAccess: ["Admin", "Client"]
+            canAccess: ["Client"]
         },
         {
             name: 'Activities',
             path: "/activities",
-            canAccess: ["Admin", "Client"]
+            canAccess: ["Client"]
         },
         {
             name: 'My Reserves',
             path: "/reserves",
             canAccess: ["Client"]
         },
+        {
+            name: 'Courses',
+            path: "/crud-courses",
+            canAccess: ["Admin"]
+        },
+        {
+            name: 'Users',
+            path: "/users",
+            canAccess: ["Admin"]
+        },
+        {
+            name: 'My Courses',
+            path: "/instructor-courses",
+            canAccess: ["Instructor"]
+        },
+
     ];
     const settings = [
         {

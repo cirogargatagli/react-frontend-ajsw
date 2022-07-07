@@ -46,6 +46,7 @@ export default function Checkout() {
     });
 
     React.useEffect(() => {
+        console.log(user)
         getCourse(id)
             .then(res => {
                 setCourse(res.data);
@@ -69,12 +70,11 @@ export default function Checkout() {
             }
             window.Mercadopago.createToken(formCreateToken, (status, response) => {
                 if (status === 200 || status === 201) {
-                    console.log(response.id)
                     let reserve = {
                         idCourse: parseInt(id),
                         idClient: user.id,
+                        emailAccount: user.account.email,
                         paymentDto: {
-                            email: "test_user_20994792@testuser.com",
                             firstName: formPayment.nameOnCard,
                             transactionAmount: course.price,
                             cardToken: response.id,
@@ -88,10 +88,15 @@ export default function Checkout() {
 
                     createReserve(reserve)
                         .then((res) => {
+                            if (res.data.statusCode && res.data.statusCode === 500) {
+                                setActiveStep(1);
+                                setErrorPayment("Reserve error. Please try again late.")
+                            }
                             setReserve(res.data);
                         })
                         .catch(err => {
-                            console.log(err)
+                            setActiveStep(1);
+                            setErrorPayment("Reserve error. Please try again late.")
                         })
                         .finally(() => {
                             setLoading(false);
