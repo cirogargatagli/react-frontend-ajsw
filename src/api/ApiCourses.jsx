@@ -26,3 +26,7 @@ export const deleteCourse = (id) => {
 export const updateCourse = (body) => {
     return put(endpoint, false, body);
 }
+
+export const getMostReserved = () => {
+    return get(endpoint + "/most-reserved", false)
+}

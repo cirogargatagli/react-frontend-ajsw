@@ -92,6 +92,7 @@ const AddCourse = () => {
 
     const changeBody = () => {
         return tittle !== course.tittle ||
+            description !== course.description ||
             startTime !== course.startTime ||
             endTime !== course.endTime ||
             price !== course.price ||
@@ -102,11 +103,11 @@ const AddCourse = () => {
             day !== course.day ||
             capacity !== course.capacity ||
             instructor !== course.instructor;
-
     }
 
     const validBody = () => {
         return tittle &&
+            description &&
             startTime &&
             endTime &&
             price &&
@@ -127,7 +128,7 @@ const AddCourse = () => {
             endTime: endTime,
             imageURL,
             price,
-            idInstructor: instructor.idInstructor,
+            idInstructor: instructor.id,
             idActivity: activity.idActivity,
             idDay: day.idDay,
             capacity,
@@ -164,7 +165,7 @@ const AddCourse = () => {
             imageURL,
             price,
             capacity,
-            idInstructor: instructor.idInstructor,
+            idInstructor: instructor.id,
             idActivity: activity.idActivity,
             idDay: day.idDay,
             address: {

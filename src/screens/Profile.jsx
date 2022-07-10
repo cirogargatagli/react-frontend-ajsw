@@ -22,8 +22,7 @@ const Profile = () => {
     const [locality, setLocality] = useState({ name: user.address.locality.name, idLocality: user.address.locality.id });
     const [localities, setLocalities] = useState([]);
     const [message, setMessage] = useState(null);
-    // const [role, setRole] = useState({ idRole: user.account.role.id, description: user.account.role.description });
-    // const [roles, setRoles] = useState([]);
+
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -35,20 +34,8 @@ const Profile = () => {
             .then(res => {
                 setLocalities(res.data);
             })
-            .catch(error => {
-                // setTimeout(() => {
-                //     loadLocalities();
-                // }, 10000);
-            })
+            .catch(error => console.log(error))
     }
-
-    // const loadRoles = () => {
-    //     getRoles()
-    //         .then(res => {
-    //             setRoles(res.data);
-    //         })
-    //         .catch(err => console.log(err))
-    // }
 
     const validBody = () => {
         let changeBody = email !== user.account.email
@@ -179,18 +166,6 @@ const Profile = () => {
                             renderInput={(params) => <TextField {...params} label="Locality" />}
                         />
                     </Grid>
-                    {/* <Grid item>
-                        <Autocomplete
-                            disablePortal
-                            id="combo-box-roles"
-                            options={roles}
-                            onChange={(e, v) => setRole(v)}
-                            defaultValue={role}
-                            isOptionEqualToValue={(option, value) => option.idRole === value.idRole}
-                            getOptionLabel={(option) => option.description}
-                            renderInput={(params) => <TextField {...params} label="Role" />}
-                        />
-                    </Grid> */}
                     {
                         loading && (
                             <Grid container justifyContent="center" alignItems="center">

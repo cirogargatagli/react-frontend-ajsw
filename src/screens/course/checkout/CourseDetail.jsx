@@ -5,6 +5,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PersonIcon from '@mui/icons-material/Person';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InfoIcon from '@mui/icons-material/Info';
+import Logo from "../../../images/logo.png"
 
 const CourseDetail = ({
     course
@@ -19,7 +20,7 @@ const CourseDetail = ({
                             <Grid item>
                                 <img
                                     style={{ maxWidth: "150px" }}
-                                    src={course.imageURL}
+                                    src={course.imageURL || Logo}
                                     alt={course.tittle}
                                 />
                             </Grid>

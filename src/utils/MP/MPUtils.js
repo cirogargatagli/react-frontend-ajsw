@@ -1,5 +1,5 @@
 export const initializeMP = () => {
-    window.Mercadopago.setPublishableKey("TEST-3f6811a0-f77b-4c83-99d4-8008bda7332d");
+    window.Mercadopago.setPublishableKey("TEST-37a453f3-0719-4f93-afa0-9888e6053dbd");
 }
 
 export const getIdentificationTypesMP = () => {

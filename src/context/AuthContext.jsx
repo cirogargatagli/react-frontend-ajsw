@@ -15,11 +15,24 @@ export const AuthContextProvider = (props) => {
         return user && token;
     }
 
+    const isAdmin = () => {
+        return user.account.role.description === "Admin";
+    }
+
+    const isInstructor = () => {
+        return user.account.role.description === "Instructor";
+    }
+
+    const isClient = () => {
+        return user.account.role.description === "Client";
+    }
+
     const defaultContext = {
         token, setToken,
         user, setUser,
         logOut,
-        isAuthenticated
+        isAuthenticated,
+        isAdmin, isInstructor, isClient
     }
 
     useEffect(() => {

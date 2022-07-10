@@ -42,7 +42,12 @@ const CRUDCourses = () => {
     }, [])
 
     const onEdit = (id) => {
-        setCourse(courses.find(c => c.idCourse === id));
+        let cs = courses.find(c => c.idCourse === id);
+        cs.instructor = {
+            ...cs.instructor,
+            id: cs.instructor.idInstructor
+        }
+        setCourse(cs);
         history.push("/add-course")
     }
 

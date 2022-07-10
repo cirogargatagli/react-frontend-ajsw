@@ -15,9 +15,11 @@ import Checkout from "../screens/course/checkout/Checkout";
 import CRUDCourses from "../screens/administration/CRUDCourses";
 import CRUDUsers from "../screens/administration/CRUDUsers";
 import AddCourse from "../screens/administration/AddCourse";
+import MyCourses from "../screens/instructor/MyCourses";
+import CRUDActivities from "../screens/administration/CRUDActivities";
 
 export const Router = (props) => {
-    const { isAuthenticated } = useContext(AuthContext)
+    const { isAuthenticated, isClient, isAdmin, isInstructor } = useContext(AuthContext)
 
     return (
         <BrowserRouter>
@@ -27,13 +29,37 @@ export const Router = (props) => {
                         <Layout>
                             <Route exact path="/home" component={Home} />
                             <Route path="/profile" component={Profile} />
-                            <Route exact path="/courses" component={Courses} />
-                            <Route path="/courses/:id" component={Checkout} />
-                            <Route path="/activities" component={Activities} />
-                            <Route path="/reserves" component={Reserves} />
-                            <Route path="/crud-courses" component={CRUDCourses} />
-                            <Route path="/add-course" component={AddCourse} />
-                            <Route path="/users" component={CRUDUsers} />
+                            {
+                                isAdmin() && (
+                                    <>
+                                        <Route path="/crud-courses" component={CRUDCourses} />
+                                        <Route path="/add-course" component={AddCourse} />
+                                        <Route path="/users" component={CRUDUsers} />
+                                        <Route path="/crud-activities" component={CRUDActivities} />
+                                    </>
+                                )
+                            }
+                            {
+                                isClient() && (
+                                    <>
+                                        <Route exact path="/courses" component={Courses} />
+                                        <Route path="/courses/:id" component={Checkout} />
+                                        <Route path="/activities" component={Activities} />
+                                        <Route path="/reserves" component={Reserves} />
+                                    </>
+                                )
+                            }
+                            {
+                                isInstructor() && (
+                                    <Route path="/my-courses" component={MyCourses} />
+                                )
+                            }
+
+
+
+
+
+
                             <Redirect path="*" to={{ pathname: "/home" }} />
                         </Layout>
                         :

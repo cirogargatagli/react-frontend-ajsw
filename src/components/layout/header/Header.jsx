@@ -53,11 +53,15 @@ const Header = () => {
             canAccess: ["Admin"]
         },
         {
+            name: 'Activities',
+            path: "/crud-activities",
+            canAccess: ["Admin"]
+        },
+        {
             name: 'My Courses',
-            path: "/instructor-courses",
+            path: "/my-courses",
             canAccess: ["Instructor"]
         },
-
     ];
     const settings = [
         {

@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Stack } from '@mui/material';
 import React, { useContext, useState } from 'react'
 import { useEffect } from 'react';
 import { getReserves } from '../api/ApiReserve';
@@ -8,6 +8,11 @@ import { DataGrid } from '@mui/x-data-grid';
 
 
 const columns = [
+    {
+        field: 'id',
+        headerName: 'Order',
+        minWidth: 200,
+    },
     {
         field: 'nameCourse',
         headerName: 'Course',
@@ -73,7 +78,6 @@ const Reserves = () => {
             {
                 loadingReserves ? <Loader />
                     :
-                    rows.length > 0 &&
                     <Box minWidth={minWidth + 10}>
                         <DataGrid
                             rows={rows}
@@ -81,6 +85,13 @@ const Reserves = () => {
                             pageSize={10}
                             disableSelectionOnClick
                             autoHeight
+                            components={{
+                                NoRowsOverlay: () => (
+                                    <Stack height="100%" alignItems="center" justifyContent="center">
+                                        You don't have reservations yet
+                                    </Stack>
+                                )
+                            }}
                         />
                     </Box>
             }

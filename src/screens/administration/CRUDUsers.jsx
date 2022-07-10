@@ -1,10 +1,9 @@
 
-import { Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getFullCourses } from '../../api/ApiCourses';
 import Loader from '../../components/Loader';
 import { DataGrid } from '@mui/x-data-grid';
 import { deletePerson, getUsers } from '../../api/ApiPerson';

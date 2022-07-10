@@ -7,6 +7,7 @@ import { getLocalities } from '../../api/ApiAddress';
 import { getCourses } from '../../api/ApiCourses';
 import { AuthContext } from '../../context/AuthContext';
 import { FilterContext } from '../../context/FilterContext';
+import Logo from "../../images/logo.png"
 
 const Courses = () => {
 
@@ -114,7 +115,7 @@ const Courses = () => {
                         loadingCourses ? <Grid item> <CircularProgress /> </Grid>
                             :
                             courses.map((course) => (
-                                <Grid item key={course.idCourse} xs={12} sm={4} md={4}>
+                                <Grid item key={course.idCourse} xs={12} sm={4} md={4} style={{ textAlign: "center" }}>
                                     <CardActionArea
                                         onClick={() => history.push("/courses/" + course.idCourse)}
                                     >
@@ -127,15 +128,16 @@ const Courses = () => {
                                                     height: "250px"
                                                     //16: 9
                                                 }}
-                                                image={course.imageURL}
+                                                image={course.imageURL || Logo}
                                                 alt="random"
                                             />
                                             <CardContent sx={{ flexGrow: 1 }}>
                                                 <Typography gutterBottom variant="h5" component="h2" fontWeight="550">
                                                     {course.tittle}
                                                 </Typography>
+                                                <Typography gutterBottom variant="h6" component="h2">{course.day.nameDay}</Typography>
                                                 <Typography gutterBottom variant="h6" component="h2">
-                                                    {course.startTime + " - " + course.endTime}
+                                                    {course.startTime.split(":")[0] + ":" + course.startTime.split(":")[1] + " - " + course.endTime.split(":")[0] + ":" + course.endTime.split(":")[1]}
                                                 </Typography>
                                             </CardContent>
                                         </Card>

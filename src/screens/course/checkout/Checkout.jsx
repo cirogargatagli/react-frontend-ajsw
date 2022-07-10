@@ -12,12 +12,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PaymentForm from './PaymentForm';
 import Review from './ReviewOrder';
 import CourseDetail from './CourseDetail';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { getCourse } from '../../../api/ApiCourses';
 import { AuthContext } from '../../../context/AuthContext';
 import { createReserve } from '../../../api/ApiReserve';
 import { useState } from 'react';
 import LoaderWithText from '../../../components/LoaderWithText'
+import { ArrowBack } from '@mui/icons-material';
 
 const steps = ['Course details', 'Payment details', 'Review your order'];
 
@@ -25,6 +26,8 @@ const theme = createTheme();
 
 export default function Checkout() {
     let { id } = useParams();
+
+    const history = useHistory();
 
     const { user } = React.useContext(AuthContext);
     const [course, setCourse] = React.useState(null);
@@ -170,6 +173,21 @@ export default function Checkout() {
                                                     Back
                                                 </Button>
                                             )}
+
+                                            {
+                                                activeStep === 0 && (
+                                                    <Button
+                                                        variant='outlined'
+                                                        color='primary'
+                                                        disabled={loading}
+                                                        onClick={history.goBack}
+                                                        sx={{ mt: 3, ml: 1 }}
+                                                        startIcon={<ArrowBack />}
+                                                    >
+                                                        Back
+                                                    </Button>
+                                                )
+                                            }
 
                                             <Button
                                                 variant="contained"

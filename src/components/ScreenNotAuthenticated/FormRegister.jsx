@@ -4,10 +4,12 @@ import CustomInput from '../CustomInput';
 import InputPassword from '../InputPassword';
 import { useHistory } from "react-router-dom";
 import { EMAIL, PHONE, STRING } from "../../utils/TypesUtils"
-import { getLocalities, postAddress } from '../../api/ApiAddress';
-import { postAccount } from '../../api/ApiAccount';
+import { getLocalities } from '../../api/ApiAddress';
 import { createPerson } from '../../api/ApiPerson';
 import { hash256 } from '../../utils/HashUtil';
+import { getRoles } from '../../api/ApiRole';
+import { createInstructor } from '../../api/ApiInstructor';
+import { createClient } from '../../api/ApiClient';
 
 const FormRegister = () => {
 
@@ -21,11 +23,15 @@ const FormRegister = () => {
     const [number, setNumber] = useState('');
     const [locality, setLocality] = useState('');
     const [localities, setLocalities] = useState([]);
+    const [role, setRole] = useState("");
+    const [roles, setRoles] = useState([]);
+
     const [loading, setLoading] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState({});
 
     useEffect(() => {
         loadLocalities();
+        loadRoles();
     }, []);
 
     const loadLocalities = () => {
@@ -33,11 +39,15 @@ const FormRegister = () => {
             .then(res => {
                 setLocalities(res.data);
             })
-            .catch(error => {
-                // setTimeout(() => {
-                //     loadLocalities();
-                // }, 10000);
+            .catch(error => console.log(error))
+    }
+
+    const loadRoles = () => {
+        getRoles()
+            .then(res => {
+                setRoles(res.data.filter(x => x.idRole !== 1));
             })
+            .catch(err => console.log(err))
     }
 
     const onRegisterUser = async () => {
@@ -56,24 +66,35 @@ const FormRegister = () => {
                 email,
                 password: hash256(password),
                 active: true,
-                id_role: 3
+                id_role: role.idRole
             }
         }
 
-        createPerson(bodyUser)
-            .then(() => {
-                setOpenSnackbar({ open: true, severity: "success", message: "You registered successfully, you can now log in" });
-                setTimeout(() => {
-                    history.push("/login")
-                }, 200);
-            })
-            .catch(err => {
-                console.log(err);
-                setOpenSnackbar({ open: true, severity: "error", message: "An error occurred while registering" });
-            })
-            .finally(() => {
-                setLoading(false);
-            })
+        if (role.idRole === 2) {
+            createInstructor(bodyUser)
+                .then(() => {
+                    setOpenSnackbar({ open: true, severity: "success", message: "You registered successfully, you can now log in" });
+                    setTimeout(() => {
+                        history.push("/login")
+                    }, 200);
+                })
+                .catch(err => setOpenSnackbar({ open: true, severity: "error", message: "An error occurred while registering" }))
+                .finally(() => {
+                    setLoading(false);
+                })
+        } else {
+            createClient(bodyUser)
+                .then(() => {
+                    setOpenSnackbar({ open: true, severity: "success", message: "You registered successfully, you can now log in" });
+                    setTimeout(() => {
+                        history.push("/login")
+                    }, 200);
+                })
+                .catch(err => setOpenSnackbar({ open: true, severity: "error", message: "An error occurred while registering" }))
+                .finally(() => {
+                    setLoading(false);
+                })
+        }
     }
 
     const validBody = () => {
@@ -106,6 +127,16 @@ const FormRegister = () => {
                     <InputPassword
                         password={password}
                         setPassword={setPassword}
+                    />
+                </Grid>
+                <Grid item>
+                    <Autocomplete
+                        disablePortal
+                        id="combo-box-roles"
+                        options={roles}
+                        onChange={(e, v) => setRole(v)}
+                        getOptionLabel={(option) => option.description}
+                        renderInput={(params) => <TextField {...params} label="Role" />}
                     />
                 </Grid>
                 <Grid item lg={12}>
@@ -178,7 +209,9 @@ const FormRegister = () => {
                 </Grid>
                 {
                     loading && (
-                        <CircularProgress color="primary" />
+                        <Grid container justifyContent="center" sx={{ py: 1 }}>
+                            <CircularProgress color="primary" />
+                        </Grid>
                     )
                 }
                 <Grid item>
