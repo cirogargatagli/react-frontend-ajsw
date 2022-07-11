@@ -6,6 +6,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InfoIcon from '@mui/icons-material/Info';
 import Logo from "../../../images/logo.png"
+import ReduceCapacityIcon from '@mui/icons-material/ReduceCapacity';
 
 const CourseDetail = ({
     course
@@ -59,6 +60,12 @@ const CourseDetail = ({
                                         <Typography>
                                             <InfoIcon />
                                             {course.description}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography>
+                                            <ReduceCapacityIcon />
+                                            {course.reservesCount + "/" + course.capacity}
                                         </Typography>
                                     </Grid>
                                 </Grid>
